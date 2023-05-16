@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebSocket Chat</title>
+  </head>
+  <body>
+    <input type="text" id="messageInput" />
+    <button onclick="sendMessage()">Enviar</button>
+
+    <ul id="messageList"></ul>
+
+    <script>
+      const socket = new WebSocket('ws://localhost:8080');
+      const messageInput = document.getElementById('messageInput');
+      const messageList = document.getElementById('messageList');
+
+      socket.onopen = () => {
+        console.log('Conexão estabelecida com sucesso.');
+      };
+
+      socket.onmessage = (event) => {
+        const message = event.data;
+        displayMessage(message);
+      };
+
+      socket.onclose = (event) => {
+        console.log('Conexão fechada com o código:', event.code);
+      };
+
+      function sendMessage() {
+        const message = messageInput.value;
+        socket.send(message);
+        messageInput.value = '';
+      }
+
+      function displayMessage(message) {
+        const li = document.createElement('li');
+        li.textContent = message;
+        messageList.appendChild(li);
+      }
+    </script>
+  </body>
+</html>
