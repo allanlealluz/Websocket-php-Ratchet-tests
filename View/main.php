@@ -9,7 +9,16 @@
     <button onclick="sendMessage()">Enviar</button>
 
     <ul id="messageList"></ul>
-
+    <?php
+    session_start();
+    if (isset($_SESSION['user']))
+    {
+      echo 'connected';
+      exec('php C:\xampp\htdocs\websocket-tests2\server.php > /dev/null 2>&1 &');
+    }else{
+      echo 'Disconected';
+    }
+    ?>
     <script>
       const socket = new WebSocket('ws://localhost:8080');
       const messageInput = document.getElementById('messageInput');
